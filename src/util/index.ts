@@ -53,9 +53,17 @@ export const findBestChild = (children: string[], optimal: string) => {
 
 export const generateChildren = (
 	closestIndividual: string,
-	optimal: string,
 	mutationRate: number,
 	amountOfChildren = 6
 ): string[] => {
-	return [];
+	const children: string[] = [];
+	for (let i = 0; i < amountOfChildren; i++) {
+		const newChild = closestIndividual.split('').reduce((acc, letter) => {
+			const shouldMutate = Math.random() < mutationRate;
+			acc += shouldMutate ? randomAlphaString(1) : letter;
+			return acc;
+		}, '');
+		children.push(newChild);
+	}
+	return children;
 };

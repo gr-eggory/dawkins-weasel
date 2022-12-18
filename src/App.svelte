@@ -1,30 +1,39 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { randomAlphaString, generateChildren } from './util';
+	import { randomAlphaString, generateChildren, findBestChild } from './util';
 
 	let input = '';
 	let optimal = 'methinks it is like a weasel';
-	let mutationRate = 0.1;
+	let mutationRate = 0.01;
+	let generation = 0;
 
 	let closestIndividual = randomAlphaString(optimal.length);
-	// $: children = generateChildren(closestIndividual, optimal, mutationRate);
+	let children = generateChildren(closestIndividual, mutationRate);
 
 	const assignOptimal = () => {
 		optimal = input;
 	};
 
-	// onMount(() => {
-	// 	const interval = setInterval(() => {}, 10 * 1000);
+	onMount(() => {
+		const interval = setInterval(() => {
+			closestIndividual = findBestChild(children, optimal);
+			children = generateChildren(closestIndividual, mutationRate);
+			if (closestIndividual === optimal) {
+				clearInterval(interval);
+			}
+			generation++;
+		}, 10);
 
-	// 	onDestroy(() => {
-	// 		clearInterval(interval);
-	// 	});
-	// });
+		onDestroy(() => {
+			clearInterval(interval);
+		});
+	});
 </script>
 
 <main>
 	<h2>{optimal}</h2>
 	<h2>{closestIndividual}</h2>
+	<h3>Generation: {generation}</h3>
 	<input type="text" bind:value={input} on:submit={assignOptimal} />
 </main>
 
