@@ -16,3 +16,46 @@ export const randomAlphaString = (
 	}
 	return builtString;
 };
+
+const similarity = (a: string, b: string): number => {
+	const aIsSmaller = a.length - b.length;
+	const smallerLength = aIsSmaller ? a.length : b.length;
+	const largerLength = aIsSmaller ? b.length : a.length;
+	let equivalencies = 0;
+	for (let i = 0; i < smallerLength; i++) {
+		if (a[i] === b[i]) {
+			equivalencies++;
+		}
+	}
+	return equivalencies / largerLength;
+};
+
+class Child {
+	text: string;
+	closeenessToOptimal: number;
+	constructor(text: string, closeenessToOptimal: number) {
+		this.text = text;
+		this.closeenessToOptimal = closeenessToOptimal;
+	}
+}
+
+export const findBestChild = (children: string[], optimal: string) => {
+	let bestChild = new Child(children[0], similarity(children[0], optimal));
+	for (let i = 1; i < children.length; i++) {
+		const currentChild = children[i];
+		const closenessToOpt = similarity(currentChild, optimal);
+		if (closenessToOpt > bestChild.closeenessToOptimal) {
+			bestChild = new Child(currentChild, closenessToOpt);
+		}
+	}
+	return bestChild.text;
+};
+
+export const generateChildren = (
+	closestIndividual: string,
+	optimal: string,
+	mutationRate: number,
+	amountOfChildren = 6
+): string[] => {
+	return [];
+};

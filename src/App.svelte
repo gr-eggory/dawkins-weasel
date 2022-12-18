@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { randomAlphaString } from './util';
+	import { onMount, onDestroy } from 'svelte';
+	import { randomAlphaString, generateChildren } from './util';
 
 	let input = '';
 	let optimal = 'methinks it is like a weasel';
@@ -11,6 +12,14 @@
 	const assignOptimal = () => {
 		optimal = input;
 	};
+
+	// onMount(() => {
+	// 	const interval = setInterval(() => {}, 10 * 1000);
+
+	// 	onDestroy(() => {
+	// 		clearInterval(interval);
+	// 	});
+	// });
 </script>
 
 <main>
