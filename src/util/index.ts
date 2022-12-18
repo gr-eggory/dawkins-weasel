@@ -17,7 +17,7 @@ export const randomAlphaString = (
 	return builtString;
 };
 
-const similarity = (a: string, b: string): number => {
+export const similarity = (a: string, b: string): number => {
 	const aIsSmaller = a.length - b.length;
 	const smallerLength = aIsSmaller ? a.length : b.length;
 	const largerLength = aIsSmaller ? b.length : a.length;
@@ -30,7 +30,7 @@ const similarity = (a: string, b: string): number => {
 	return equivalencies / largerLength;
 };
 
-class Child {
+export class Child {
 	text: string;
 	closeenessToOptimal: number;
 	constructor(text: string, closeenessToOptimal: number) {
@@ -48,7 +48,7 @@ export const findBestChild = (children: string[], optimal: string) => {
 			bestChild = new Child(currentChild, closenessToOpt);
 		}
 	}
-	return bestChild.text;
+	return bestChild;
 };
 
 export const generateChildren = (
@@ -67,3 +67,6 @@ export const generateChildren = (
 	}
 	return children;
 };
+
+export const prettifyPercent = (percent: number): string =>
+	`${(percent * 100).toString().substring(0, 4)}%`;
